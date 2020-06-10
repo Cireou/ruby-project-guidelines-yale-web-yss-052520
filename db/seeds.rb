@@ -2,14 +2,12 @@ require_relative '../config/environment'
 require_all 'app'
 
 # Representative.destroy_all
+Action.destroy_all()
 
 PUBLICA_KEY = ENV['PRO_PUBLICA_KEY']
 #google_key = ENV['GOOGLE_KEY']
 
 REP_URL = 'https://api.propublica.org/congress/v1/116/house/members.json'
-VOTE_URL = 'https://api.propublica.org/congress/v1/house/votes/2019-01-01/2020-06-09.json'
-
-
 
 def populate_rep()
     response = generate_request(REP_URL, PUBLICA_KEY)
@@ -30,10 +28,36 @@ def populate_rep()
     }
 end
 
-def populate_votes()
-    
-    
+
+def populate_actions()
+    roll_call_1 = [*1..701]
+    roll_call_2 = [*1..115]
+    get_votes(1, roll_call_1) + get_votes(2, roll_call_2)
 end
+
+def get_votes(session_num, session_arr)
+    session_arr.map { |roll_call_num|
+        response = generate_request(gen_RC_URL(session_num, roll_call_num), PUBLICA_KEY)
+        next if !response 
+        vote = response["results"]["votes"]["vote"]
+        positions = vote["positions"]
+
+        bill_id = vote["bill"]["bill_id"]
+        positions.each{|rep_vote|
+            Action.create(
+                representative_id: rep_vote["member_id"],
+                bill_id: bill_id,
+                rep_action: "Vote",
+                vote: rep_vote["vote_position"]
+            )
+        }
+        bill_id
+    }
+end
+
+def gen_RC_URL(session_num,  roll_call_num)
+    "https://api.propublica.org/congress/v1/116/house/sessions/#{session_num}/votes/#{roll_call_num}.json"
+end 
 
 
 def find_age(dob_str)#dob: "YYYY-MM-DD"
@@ -48,9 +72,7 @@ def generate_request(url, key = nil)
 end
  
 # populate_rep()
-binding.pry
-0
-
+# populate_actions()
 =begin
 
 https://api.propublica.org/congress/{version}/
