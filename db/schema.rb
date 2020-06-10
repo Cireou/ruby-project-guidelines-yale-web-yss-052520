@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_142342) do
+ActiveRecord::Schema.define(version: 2020_06_10_175806) do
 
   create_table "actions", force: :cascade do |t|
     t.text "rep_action"
@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_06_10_142342) do
     t.date "date_pass_reject"
     t.text "summary"
     t.string "link"
+    t.string "bill_id"
   end
 
   create_table "representatives", force: :cascade do |t|

@@ -2,10 +2,11 @@ require_relative '../config/environment'
 require_all 'app'
 
 # Representative.destroy_all
-Action.destroy_all()
+# Action.destroy_all()
 
 PUBLICA_KEY = ENV['PRO_PUBLICA_KEY']
 #google_key = ENV['GOOGLE_KEY']
+BILLS = []
 
 REP_URL = 'https://api.propublica.org/congress/v1/116/house/members.json'
 
@@ -43,6 +44,8 @@ def get_votes(session_num, session_arr)
         positions = vote["positions"]
 
         bill_id = vote["bill"]["bill_id"]
+        BILLS << bill_id
+
         positions.each{|rep_vote|
             Action.create(
                 representative_id: rep_vote["member_id"],
@@ -51,7 +54,7 @@ def get_votes(session_num, session_arr)
                 vote: rep_vote["vote_position"]
             )
         }
-        bill_id
+
     }
 end
 
@@ -73,6 +76,8 @@ end
  
 # populate_rep()
 # populate_actions()
+binding.pry()
+0
 =begin
 
 https://api.propublica.org/congress/{version}/
