@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_175806) do
+ActiveRecord::Schema.define(version: 2020_06_10_205011) do
 
   create_table "actions", force: :cascade do |t|
     t.text "rep_action"
-    t.integer "bill_id"
-    t.integer "representative_id"
+    t.string "bill_id"
+    t.string "representative_id"
     t.string "vote"
   end
 
