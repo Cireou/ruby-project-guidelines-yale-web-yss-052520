@@ -2,12 +2,12 @@ require_relative '../config/environment'
 require_all "bin"
 require 'pry'
 
-User.destroy_all()
+# User.destroy_all()
 
 while true
     user = LoadScreen.run() 
     while true 
-        HomePage.run()
+        HomePage.run(user)
     end
 end
 
