@@ -12,9 +12,9 @@ class SettingPage
         while true
             case selection
             when choices[0]
-                display_settings(user)
+                display_settings()
             when choices[1]
-                change_settings(user)
+                change_settings()
             when choices[2]
                 binding.pry
                 return delete_account()
@@ -28,7 +28,8 @@ class SettingPage
 
     private 
 
-    def self.display_settings(user)
+    def self.display_settings()
+        user = User.find(Runner.user.id)
         system("clear")
         key = "c"
         while key != "b"
@@ -40,7 +41,8 @@ class SettingPage
         end
     end
 
-    def self.change_settings(user)
+    def self.change_settings()
+        user = User.find(Runner.user.id)
         system("clear")
         choices = ["Change Username", "Change Password", "Change Address", "Go Back"]
         selection = @@prompt.select("What would you like to do?", choices)
@@ -53,14 +55,14 @@ class SettingPage
             when choices[2]  
                 Runner.user.update(address: LoadScreen.get_signup_address)
             end 
-            binding.pry
+            # binding.pry
             system("clear")
             selection = @@prompt.select("What would you like to do?", choices)
         end
     end   
 
     def self.delete_account()
-        binding.pry
+        # binding.pry
         User.delete(Runner.user.id)
         return false 
     end
