@@ -4,6 +4,7 @@ Bundler.require
 require 'active_record'
 require "tty-prompt"
 require 'dotenv'
+require 'table_print'
 
 ActiveRecord::Base.establish_connection(
   adapter: 'sqlite3', 

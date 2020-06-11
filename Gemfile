@@ -9,3 +9,5 @@ gem 'tty-prompt'
 gem "httparty"
 gem "dotenv"
 gem "rake"
+gem "table_print"
+gem "irb"

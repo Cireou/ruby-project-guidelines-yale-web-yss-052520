@@ -1,16 +1,7 @@
 require_relative '../config/environment'
 require_all 'app'
 
-# Representative.destroy_all
-# ActiveRecord::Base.connection.exec_query("DELETE FROM votes")
-# ActiveRecord::Base.connection.exec_query("DELETE FROM bills")
-# ActiveRecord::Base.connection.exec_query("DELETE FROM amendments")
-# Vote.delete_all
-# Bill.delete_all
-# Amendment.delete_all
-
 PUBLICA_KEY = ENV['PRO_PUBLICA_KEY']
-#google_key = ENV['GOOGLE_KEY']
 
 REP_URL = 'https://api.propublica.org/congress/v1/116/house/members.json'
 
@@ -142,12 +133,12 @@ def populate_bills()
         # binding.pry
         puts "ProPublica API Call for Bill: #{bill_id} failed." && next if response["status"] != "OK"
         results = response["results"][0]
-        # binding.pry
 
-        bill.sponsor = results["sponsor_id"]
-        bill.date_proposed = results["introduced_date"]
-        bill.summary = results["summary"]
-        bill.link = results["congressdotgov_url"]
+        bill.update(sponsor: results["sponsor_id"])
+        bill.update(date_proposed: results["introduced_date"])
+        bill.update(summary: results["summary"])
+        bill.update(link: results["congressdotgov_url"])
+        # binding.pry
     }
 end
 
@@ -190,7 +181,7 @@ end
 
 # populate_rep()
 # populate_amendments()
-# # populate_bills()
+populate_bills()
 # get_cosponsors()
 
 binding.pry
