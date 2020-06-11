@@ -11,9 +11,9 @@ class HomePage
             selection = @@prompt.select("What would you like to do?", choices)
             case selection
             when choices[0]
-                # display_representative()
+                RepPage.load_my_rep()
             when choices[1]
-                # load_reps()
+                RepPage.load_search_engine()
             when choices[2]
                 # load_bills()  
             when choices[3]
