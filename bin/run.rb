@@ -16,7 +16,7 @@ class Runner
         end
     end
 end
-# binding.pry
+binding.pry
 Runner.run()
 
 # binding.pry
