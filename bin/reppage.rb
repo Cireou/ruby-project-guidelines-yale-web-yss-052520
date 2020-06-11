@@ -8,10 +8,9 @@ class RepPage
             rep = Representative.find_by(name: rep_name)
             if !rep 
                 request = @@prompt.yes?("Could not find that representative, would you like to look for another or try again?")
-                return if request == 'n'
+                return if request == 'no'
             end
             load_rep_page(rep)
-
         end
     end
 
