@@ -8,14 +8,18 @@ class SettingPage
         choices = ["View Settings", "Change Settings", "Delete Account", "Go Back"]
         selection = @@prompt.select("What would you like to do?", choices)
         # binding.pry
-        while selection != choices[2]
+        system("clear")
+        while true
             case selection
             when choices[0]
                 display_settings(user)
             when choices[1]
                 change_settings(user)
             when choices[2]
+                binding.pry
                 return delete_account()
+            when choices[3]
+                return false 
             end
             system("clear")
             selection = @@prompt.select("What would you like to do?", choices)
@@ -56,6 +60,7 @@ class SettingPage
     end   
 
     def self.delete_account()
+        binding.pry
         User.delete(Runner.user.id)
         return false 
     end
