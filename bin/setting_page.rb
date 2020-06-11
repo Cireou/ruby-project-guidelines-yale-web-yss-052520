@@ -5,7 +5,7 @@ class SettingPage
 
     def self.run()
         user = User.find(Runner.user.id)
-        choices = ["View Settings", "Change Settings", "Go Back"]
+        choices = ["View Settings", "Change Settings", "Delete Account", "Go Back"]
         selection = @@prompt.select("What would you like to do?", choices)
         # binding.pry
         while selection != choices[2]
@@ -14,6 +14,8 @@ class SettingPage
                 display_settings(user)
             when choices[1]
                 change_settings(user)
+            when choices[2]
+                return delete_account()
             end
             system("clear")
             selection = @@prompt.select("What would you like to do?", choices)
@@ -52,6 +54,11 @@ class SettingPage
             selection = @@prompt.select("What would you like to do?", choices)
         end
     end   
+
+    def self.delete_account()
+        User.delete(Runner.user.id)
+        return false 
+    end
 
     
 end

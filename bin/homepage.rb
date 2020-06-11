@@ -18,7 +18,7 @@ class HomePage
                 # load_bills()  
             when choices[3]
                 # binding.pry
-                SettingPage.run()
+                return false if !SettingPage.run()
             when choices[4]
                 return false
             end
