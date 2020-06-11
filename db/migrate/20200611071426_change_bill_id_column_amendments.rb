@@ -1,0 +1,5 @@
+class ChangeBillIdColumnAmendments < ActiveRecord::Migration[5.2]
+  def change
+    change_column :amendments, :bill_id, :integer
+  end
+end

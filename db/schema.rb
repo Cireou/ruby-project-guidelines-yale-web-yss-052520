@@ -10,23 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_10_205011) do
+ActiveRecord::Schema.define(version: 2020_06_11_071503) do
 
-  create_table "actions", force: :cascade do |t|
-    t.text "rep_action"
-    t.string "bill_id"
-    t.string "representative_id"
-    t.string "vote"
+  create_table "amendments", force: :cascade do |t|
+    t.string "decision"
+    t.string "decision_date"
+    t.integer "roll_call_num"
+    t.string "description"
+    t.integer "session_num"
+    t.integer "bill_id"
   end
 
   create_table "bills", force: :cascade do |t|
     t.string "title"
     t.date "date_proposed"
-    t.boolean "passed"
-    t.date "date_pass_reject"
     t.text "summary"
     t.string "link"
     t.string "bill_id"
+    t.string "sponsor"
+  end
+
+  create_table "cosponsors", force: :cascade do |t|
+    t.integer "bill_id"
+    t.string "rep_id"
   end
 
   create_table "representatives", force: :cascade do |t|
@@ -44,6 +50,12 @@ ActiveRecord::Schema.define(version: 2020_06_10_205011) do
     t.text "username"
     t.text "password"
     t.text "address"
+  end
+
+  create_table "votes", force: :cascade do |t|
+    t.integer "bill_id"
+    t.string "representative_id"
+    t.string "vote"
   end
 
 end

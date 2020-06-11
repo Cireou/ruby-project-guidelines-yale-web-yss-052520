@@ -1,5 +1,9 @@
-class Bill < ActiveRecord::Base 
-    self.primary_key = :bill_id
-    has_many :actions 
-    has_many :representatives, through: :actions
+class Bill < ActiveRecord::Base
+    has_many :amendments
+    
+    has_many :votes
+    has_many :representative, through: :votes
+
+    has_many :cosponsors
+    has_many :representatives, through: :cosponsors
 end
