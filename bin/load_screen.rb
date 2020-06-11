@@ -6,18 +6,18 @@ class LoadScreen
        
     def self.run()
         load_choice = @@prompt.select("What would you like to do?", ["Log In","Sign Up", "Quit"])
+        system("clear")
         case load_choice
         when "Log In"
-            user = load_login()
+            Runner.user = load_login()
         when "Sign Up"
-            user = load_signup()
+            Runner.user = load_signup()
         else
             puts "Bye Bye"
             exit()
         end
     end
 
-    private 
     def self.load_login()
         username = @@prompt.ask("What is your username?")
         password = @@prompt.mask("What is your password?")

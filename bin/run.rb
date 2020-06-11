@@ -1,15 +1,22 @@
 require_relative '../config/environment'
-require_all "bin"
-require 'pry'
-
+require_all 'bin'
 # User.destroy_all()
 
-while true
-    user = LoadScreen.run() 
-    while true 
-        HomePage.run(user)
+class Runner
+    mattr_accessor :user 
+
+    def self.run 
+        while true 
+            @@user = LoadScreen.run()
+            display_home_page = true  
+            while display_home_page
+                display_home_page =  HomePage.run()
+            end
+        end
     end
 end
+# binding.pry
+Runner.run()
 
 # binding.pry
 #0
