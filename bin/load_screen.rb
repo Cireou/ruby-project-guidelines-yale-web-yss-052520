@@ -30,6 +30,7 @@ class LoadScreen
                 user = load_signup()
                 system("clear")
             else 
+                system("clear")
                 exit()
             end
         end
