@@ -18,11 +18,9 @@ class RepPage
         while !rep 
             rep_name = @@prompt.ask("Who would you like to look for (First Name + Last Name?)")
             rep = Representative.find_by(name: rep_name)
-            # binding.pry
             if !rep 
                 system("clear")
                 request = @@prompt.yes?("Could not find that representative, would you like to look for another or try again?")
-                # binding.pry
                 return if !request
             end
             system("clear")
