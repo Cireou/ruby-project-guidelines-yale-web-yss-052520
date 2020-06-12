@@ -14,4 +14,4 @@ ActiveRecord::Base.establish_connection(
 ActiveRecord::Base.logger = nil
 require_all 'lib'
 require_all 'app/models'
-require_all 'bin'
+# require_all 'bin'

@@ -144,34 +144,21 @@ end
 
 def get_cosponsors()
     
-    # Bill.all.each {|bill|
-    #     # binding.pry()
-    #     bill_id = bill.bill_id
-    #     response = generate_request(get_cosponsor_URL(bill_id), PUBLICA_KEY)
-    #     # binding.pry
-    #     puts "ProPublica API Call for Bill: #{bill_id} failed." && next if response["status"] != "OK"
+    Bill.all.each {|bill|
+        # binding.pry()
+        bill_id = bill.bill_id
+        response = generate_request(get_cosponsor_URL(bill_id), PUBLICA_KEY)
+        # binding.pry
+        puts "ProPublica API Call for Bill: #{bill_id} failed." && next if response["status"] != "OK"
         
-    #     cosponsors = response["results"][0]["cosponsors"]
-    #     # binding.pry
-    #     cosponsors.each {|cosponsor|
-    #         Cosponsor.create(
-    #             bill_id: bill.id,
-    #             rep_id: cosponsor["cosponsor_id"]
-    #         )
-    #   }
-    
-    cosponsor_bill_ids = Cosponsor.all.map{|c| c.bill_id}.uniq.drop(3)
-    cosponsor_bill_ids.each {|bill_id|
-
-        bill_id_str = Bill.find(bill_id).bill_id
-        response = generate_request(get_cosponsor_URL(bill_id_str), PUBLICA_KEY)
         cosponsors = response["results"][0]["cosponsors"]
+        # binding.pry
         cosponsors.each {|cosponsor|
             Cosponsor.create(
-                bill_id: bill_id,
+                bill_id: bill.id,
                 rep_id: cosponsor["cosponsor_id"]
             )
-        }        
+      }
     }
 end
 
@@ -179,11 +166,9 @@ def get_cosponsor_URL(bill_id)
     "https://api.propublica.org/congress/v1/116/bills/#{bill_id}/cosponsors.json"
 end
 
-# populate_rep()
-# populate_amendments()
+populate_rep()
+populate_amendments()
 populate_bills()
-# get_cosponsors()
+get_cosponsors()
 
-binding.pry
-0
 
