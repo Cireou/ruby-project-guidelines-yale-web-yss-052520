@@ -6,20 +6,18 @@ class HomePage
     def self.run()
         selection = "start"
         
-        choices = ["My Representative","Explore Representatives", "Explore Bills", "Settings", "Log Out"]
+        choices = ["Explore Representatives", "Explore Bills", "Settings", "Log Out"]
         while selection != "Log Out"
             selection = @@prompt.select("What would you like to do?", choices)
+            system("clear")
             case selection
             when choices[0]
-                RepPage.load_my_rep()
-            when choices[1]
                 RepPage.load_search_engine()
+            when choices[1]
+                BillPage.run()
             when choices[2]
-                # load_bills()  
+                return false if !SettingPage.run() 
             when choices[3]
-                # binding.pry
-                return false if !SettingPage.run()
-            when choices[4]
                 return false
             end
             system("clear")

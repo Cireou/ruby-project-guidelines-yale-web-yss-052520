@@ -11,14 +11,6 @@ class RepPage
         end
     end
 
-    def self.load_my_rep()
-        user = User.find(Runner.user.id)
-        my_rep = APICALL(user.zipcode)#API call to find rep
-        rep = load_rep(my_repname)
-        load_profile(rep)
-        load_extra_info(rep)
-    end
-
     private
 
     def self.load_searcher()
@@ -48,20 +40,21 @@ class RepPage
     end
 
     def self.load_extra_info(rep)
-        while true 
-            choices = ["View Votes", "View Sponsored Bills", "View Cosponsored Bills", "Go Back"]
-            selection = @@prompt.select("What would you like to do?", choices)
+        choices = ["View Votes", "View Sponsored Bills", "View Cosponsored Bills", "Go Back"]
+        selection = @@prompt.select("What would you like to do?", choices)
+        while selection != choices[3]
             case selection
             when choices[0]
                 get_votes(rep)
             when choices[1]
                 get_sponsored_bills(rep)
             when choices[2]
-                binding.pry
-            when choices[3]
-                return false 
+                get_cosponsored_bills(rep)
             end
+            selection = @@prompt.select("What would you like to do?", choices)
         end
+        system("clear")
+        false 
     end
 
     def self.getparty(party_string)
@@ -84,22 +77,24 @@ class RepPage
             WHERE v.representative_id = ?")
         tp sql.execute(rep.rep_id)
         sql.close
+        delay()
     end
 
     def self.get_sponsored_bills(rep)
         sql = ActiveRecord::Base.connection.raw_connection.prepare(
-            "SELECT b.title, b.summary
+            "SELECT b.title, b.bill_id, b.summary
             FROM bills as b 
             INNER JOIN representatives as r
             ON r.rep_id = b.sponsor
             WHERE r.rep_id = ?")
-        tp p.execute(rep.rep_id)
-        p.close
+        tp sql.execute(rep.rep_id)
+        sql.close
+        delay()
     end
 
     def self.get_cosponsored_bills(rep)
         sql = ActiveRecord::Base.connection.raw_connection.prepare(
-            "SELECT b.title, r2.name as Sponsor, r2.party as Party
+            "SELECT b.title, b.bill_id, r2.name as Sponsor, r2.party as Party
              FROM cosponsors as c
              INNER JOIN representatives as r
              ON r.rep_id = c.rep_id
@@ -110,6 +105,15 @@ class RepPage
              WHERE c.rep_id = ?
              ")
         tp sql.execute(rep.rep_id)
-        p.close
+        sql.close
+        delay()
+    end
+
+    def self.delay()
+        request = @@prompt.keypress("Press b to go back.")
+        while request != "b"
+            request = @@prompt.keypress("Press b to go back.")
+        end
+        system("clear")
     end
 end

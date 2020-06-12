@@ -27,7 +27,7 @@ class LoadScreen
             choice = @@prompt.select("You don't have an account, what would you like to do?", ["Sign Up", "Quit"])
             case choice
             when "Sign Up"
-                load_signup()
+                user = load_signup()
                 system("clear")
             else 
                 exit()
@@ -39,9 +39,8 @@ class LoadScreen
     def self.load_signup()
         username = get_signup_username()
         password = get_signup_password()
-        address = get_signup_address()
         system("clear")
-        User.create(username: username, password:password, address: address)
+        User.create(username: username, password:password)
     end
     
     def self.get_signup_username()
@@ -64,10 +63,5 @@ class LoadScreen
             verify_pass = @@prompt.mask("Please re-type your password.")
         end
         password 
-    end
-    
-    def self.get_signup_address()
-        address = @@prompt.ask("What is your address?")
-        #TODO: Verify address exists
     end
 end

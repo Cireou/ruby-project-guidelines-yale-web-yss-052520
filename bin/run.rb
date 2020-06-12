@@ -1,6 +1,6 @@
 require_relative '../config/environment'
 require_all 'bin'
-# User.destroy_all()
+User.destroy_all()
 
 class Runner
     mattr_accessor :user 
@@ -16,7 +16,7 @@ class Runner
         end
     end
 end
-binding.pry
+# binding.pry
 Runner.run()
 
 # binding.pry
