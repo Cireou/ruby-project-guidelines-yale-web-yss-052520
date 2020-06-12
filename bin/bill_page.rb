@@ -16,6 +16,7 @@ class BillPage
                 system("clear")
             end            
             request = @@prompt.yes?("Would you like to keep searching?")
+            system("clear")
             return if !request
         end
     end
@@ -26,11 +27,12 @@ class BillPage
         bill_id = nil
         while !bill_id 
             bill_id = @@prompt.ask("Please give a bill id (usually of the form hres-###, hjres-###, sres-###, sjres-###) or a number (returns based on database order).")
-            bill = Bill.find(bill_id) || Bill.find_by(bill_id: bill_id)
+            bill = Bill.find_by(bill_id: bill_id) || Bill.find_by(id: bill_id) 
             return bill if bill
-
-            choice = @@prompt.yes?("Unable to find bill, press b to go back or c to continue.")
-            return false if choice == "b"
+            system("clear")
+            return false if !@@prompt.yes?("Unable to find bill, would you like to continue.")
+            bill_id = nil
+            system("clear")
         end
 
     end

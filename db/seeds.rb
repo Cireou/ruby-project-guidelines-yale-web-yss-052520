@@ -75,7 +75,6 @@ def get_bill_id(bill)
 end
 
 def should_create_bill(bill)
-    # binding.pry
     bill_id = get_bill_id(bill)
     return true if !bill_id
     is_non_bill(bill_id) || !Bill.exists?(bill_id: bill_id)
@@ -91,7 +90,6 @@ def get_votes(session_num, session_arr)
         puts "ProPublica API Call for Session: #{session_num} Roll Call: #{roll_call_num} failed." && next if response["status"] != "OK"
         begin
             vote = response["results"]["votes"]["vote"]
-            # binding.pry
             
             bill_ins = get_bill(vote)
 
@@ -105,14 +103,12 @@ def get_votes(session_num, session_arr)
             )
 
             positions = vote["positions"]
-            # binding.pry
             positions.each{|rep_vote|
                 Vote.create(
                     representative_id: rep_vote["member_id"],
                     bill_id: bill_ins.id,
                     vote: rep_vote["vote_position"]
-                )
-                #  binding.pry
+                ) 
             }
         rescue Exception
             "ProPublica API Call for Session: #{session_num} Roll Call: #{roll_call_num}"
@@ -128,9 +124,7 @@ end
 def populate_bills()
     Bill.all.each {|bill|
         bill_id = bill.bill_id
-        # binding.pry()
         response = generate_request(gen_bills_URL(bill_id), PUBLICA_KEY)
-        # binding.pry
         puts "ProPublica API Call for Bill: #{bill_id} failed." && next if response["status"] != "OK"
         results = response["results"][0]
 
@@ -138,21 +132,17 @@ def populate_bills()
         bill.update(date_proposed: results["introduced_date"])
         bill.update(summary: results["summary"])
         bill.update(link: results["congressdotgov_url"])
-        # binding.pry
     }
 end
 
 def get_cosponsors()
     
     Bill.all.each {|bill|
-        # binding.pry()
         bill_id = bill.bill_id
         response = generate_request(get_cosponsor_URL(bill_id), PUBLICA_KEY)
-        # binding.pry
         puts "ProPublica API Call for Bill: #{bill_id} failed." && next if response["status"] != "OK"
         
         cosponsors = response["results"][0]["cosponsors"]
-        # binding.pry
         cosponsors.each {|cosponsor|
             Cosponsor.create(
                 bill_id: bill.id,
