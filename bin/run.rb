@@ -8,7 +8,6 @@ class Runner
     def self.run 
         while true 
             @@user = LoadScreen.run()
-            # binding.pry
             display_home_page = true  
             while display_home_page
                 display_home_page =  HomePage.run()
@@ -16,10 +15,8 @@ class Runner
         end
     end
 end
-# binding.pry
-Runner.run()
 
-# binding.pry
-#0
+system("clear")
+Runner.run()
 
 
