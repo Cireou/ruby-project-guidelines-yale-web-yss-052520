@@ -15,8 +15,9 @@ class Runner
         end
     end
 end
-
 system("clear")
+Picture.Text()
+Welcome.text()
 Runner.run()
 
 

@@ -15,3 +15,4 @@ ActiveRecord::Base.logger = nil
 require_all 'lib'
 require_all 'app/models'
 # require_all 'bin'
+require 'artii'
